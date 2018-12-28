@@ -1,3 +1,5 @@
+Icon made by Freepik from www.flaticon.com 
+
 # Mail Admin
 Place this app in **nextcloud/apps/**
 
