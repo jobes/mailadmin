@@ -1,0 +1,2 @@
+<?php
+script('mailadmin', 'script');

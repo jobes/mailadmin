@@ -9,7 +9,10 @@
  */
 return [
     'routes' => [
-	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+       ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+       
+       ['name' => 'MailAdmin#allDomain', 'url' => '/domains', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#createDomain', 'url' => '/domain', 'verb' => 'POST'],
+       ['name' => 'MailAdmin#deleteDomain', 'url' => '/domains/{domain}', 'verb' => 'DELETE']
     ]
 ];

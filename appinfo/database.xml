@@ -1,3 +1,4 @@
+<!--http://www.wiltonhotel.com/_ext/pear/docs/MDB2/docs/xml_schema_documentation.html-->
 <database>
     <name>*dbname*</name>
     <create>true</create>
@@ -8,8 +9,8 @@
         <declaration>
             <field>
                 <name>domain</name>
-                <type>64</type>
-                <length>200</length>
+                <type>text</type>
+                <length>64</length>
                 <default></default>
                 <notnull>true</notnull>
                 <primary>true</primary>
