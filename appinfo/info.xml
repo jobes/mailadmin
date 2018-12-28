@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>mailadmin</id>
+    <name>Mail Admin</name>
+    <summary>Mail server administration tool</summary>
+    <description><![CDATA[This app will help you install mail server on your ubuntu server. 
+Mailboxes are created for users in nextcloud groups defined by user.]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="jobes666@gmail.com" homepage="https://github.com/jobes/mailadmin">Viktor Joba</author>
+    <namespace>MailAdmin</namespace>
+    <category>organization</category>
+    <bugs>https://github.com/jobes/mailadmin/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="14" max-version="14"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Mail Admin</name>
+            <route>mailadmin.page.index</route>
+        </navigation>
+    </navigations>
+</info>

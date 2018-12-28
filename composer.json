@@ -1,0 +1,15 @@
+{
+    "name": "Mail Admin",
+    "description": "Mail server administration tool",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Viktor Joba"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}
