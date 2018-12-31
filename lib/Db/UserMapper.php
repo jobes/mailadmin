@@ -7,7 +7,7 @@ use OCP\AppFramework\Db\Mapper;
 class UserMapper extends Mapper {
 
     public function __construct(IDbConnection $db) {
-        parent::__construct($db, 'mailadmin_user', '\OCA\MailAdmin\Db\User');
+        parent::__construct($db, 'users', '\OCA\MailAdmin\Db\User');
     }
 
     public function findUsers($domain) {

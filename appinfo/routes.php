@@ -13,6 +13,10 @@ return [
        
        ['name' => 'MailAdmin#allDomain', 'url' => '/domains', 'verb' => 'GET'],
        ['name' => 'MailAdmin#createDomain', 'url' => '/domain', 'verb' => 'POST'],
-       ['name' => 'MailAdmin#deleteDomain', 'url' => '/domains/{domain}', 'verb' => 'DELETE']
+       ['name' => 'MailAdmin#deleteDomain', 'url' => '/domains/{domain}', 'verb' => 'DELETE'],
+       ['name' => 'MailAdmin#allGroups', 'url' => '/groups', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#getDomainGroupForDomain', 'url' => '/domaingroups/{domain}', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#domainGroupUpdate', 'url' => '/domaingroups', 'verb' => 'POST'],
+       ['name' => 'MailAdmin#getUsers', 'url' => '/users/{domain}', 'verb' => 'GET'],
     ]
 ];
