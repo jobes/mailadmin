@@ -1855,6 +1855,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2266,6 +2268,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-axios */ "./node_modules/nextcloud-axios/dist/client.js");
+/* harmony import */ var nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2300,34 +2304,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-///TODO delete alias, add alias, alias list
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function () {
     return {
       loading: false,
       newAliasFirstPartModel: "",
       newAliasSecondPartModel: "",
-      aliasList: [{
-        alias: "first@domain.sk",
-        deleting: false,
-        deleteTimer: null
-      }, {
-        alias: "second@domain.sk",
-        deleting: false,
-        deleteTimer: null
-      }, {
-        alias: "third@domain.sk",
-        deleting: false,
-        deleteTimer: null
-      }]
+      aliasList: []
     };
   },
-  props: ["user", "domainList"],
+  props: ["user", "domainList", "domain"],
+  watch: {
+    user: function (user) {
+      this.loadUserAlias(user);
+    }
+  },
+  beforeMount: function () {
+    this.loadUserAlias(this.user);
+  },
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
+      let email = this.user + '@' + this.domain;
       aliasObj.deleteTimer = setTimeout(() => {
-        this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
+        nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(OC.generateUrl("/apps/mailadmin/useralias/" + email + "/" + aliasObj.alias)).then(response => {
+          this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
+        }).catch(error => {
+          OC.Notification.showTemporary(`Failed to load domains`);
+          console.error(`Failed to load domains`);
+        });
       }, 7000);
     },
 
@@ -2343,7 +2349,45 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     createNewAlias(firstpart, secondpart) {
-      console.log(firstpart + "@" + secondpart, this.validateEmail(firstpart + "@" + secondpart));
+      let aliasemail = firstpart + "@" + secondpart;
+
+      if (this.validateEmail(aliasemail)) {
+        nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(OC.generateUrl("/apps/mailadmin/useralias"), {
+          email: this.user + '@' + this.domain,
+          alias: aliasemail
+        }).then(response => {
+          this.loadUserAlias(this.user);
+          this.newAliasFirstPartModel = '';
+          this.newAliasSecondPartModel = '';
+        }).catch(error => {
+          OC.Notification.showTemporary(`Failed to load domains`);
+          console.error(`Failed to load domains`);
+        });
+      } else {
+        OC.Notification.showTemporary(`alias inavlid`);
+      }
+    },
+
+    loadUserAlias(user) {
+      let email = user + "@" + this.domain;
+      this.loading = true;
+      nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(OC.generateUrl("/apps/mailadmin/useralias/" + email)).then(response => {
+        this.loading = false;
+
+        if (response.data.status === -1) {
+          throw new FollowException();
+        }
+
+        this.aliasList = response.data.map(x => {
+          x.deleting = false;
+          x.deleteTimer = null;
+          return x;
+        });
+      }).catch(error => {
+        this.loading = false;
+        OC.Notification.showTemporary(`Failed to load domains`);
+        console.error(`Failed to load domains`);
+      });
     }
 
   }
@@ -11225,7 +11269,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "ul[data-v-2a3c46b5] {\n  list-style: disc;\n  margin-left: 20px;\n}\n.floatleft[data-v-2a3c46b5], .ulicon[data-v-2a3c46b5], .aliasline[data-v-2a3c46b5], .litext[data-v-2a3c46b5] {\n  float: left;\n}\n.ulicon[data-v-2a3c46b5] {\n  cursor: pointer;\n}\n.aliasline[data-v-2a3c46b5]:hover {\n  background-color: WhiteSmoke;\n}\n.app-content-details[data-v-2a3c46b5] {\n  margin-left: 10px;\n}\n.deleted[data-v-2a3c46b5] {\n  color: grey;\n}\n.litext[data-v-2a3c46b5] {\n  width: 200px;\n}\n.aliasform[data-v-2a3c46b5] {\n  margin-top: 30px;\n}\n", ""]);
+exports.push([module.i, "ul[data-v-2a3c46b5] {\n  list-style: disc;\n  list-style-position: inside;\n}\nli[data-v-2a3c46b5] {\n  padding-left: 10px;\n  width: calc(100% - 20px);\n  max-width: 500px;\n}\nli[data-v-2a3c46b5]:hover {\n    background-color: WhiteSmoke;\n}\n.floatleft[data-v-2a3c46b5], .ulicon[data-v-2a3c46b5], .litext[data-v-2a3c46b5] {\n  float: left;\n}\n.ulicon[data-v-2a3c46b5] {\n  cursor: pointer;\n  margin: 2px;\n}\n.aliasline[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n  float: right;\n}\n.app-content-details[data-v-2a3c46b5] {\n  margin-left: 10px;\n}\n.deleted[data-v-2a3c46b5] {\n  color: grey;\n}\n.litext[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n}\n.aliasform[data-v-2a3c46b5] {\n  margin-top: 30px;\n}\n", ""]);
 
 // exports
 
@@ -11244,7 +11288,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n#app[data-v-7ba5bd90] {\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -12965,66 +13009,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { attrs: { id: "app" } }, [
-      _c(
-        "div",
-        { attrs: { id: "app-navigation" } },
-        [
-          _c("domain", {
-            on: {
-              "select-domain": function($event) {
-                _vm.selectDomain($event)
-              },
-              "domain-list": function($event) {
-                _vm.domainList = $event
-              }
+  return _c("div", { attrs: { id: "app" } }, [
+    _c(
+      "div",
+      { attrs: { id: "app-navigation" } },
+      [
+        _c("domain", {
+          on: {
+            "select-domain": function($event) {
+              _vm.selectDomain($event)
+            },
+            "domain-list": function($event) {
+              _vm.domainList = $event
             }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "app-content" } }, [
-        _vm.selectedDomain
-          ? _c(
-              "div",
-              { attrs: { id: "app-content-wrapper" } },
-              [
-                _c("user-list", {
-                  ref: "userList",
-                  attrs: { domain: _vm.selectedDomain },
-                  on: {
-                    "selected-user": function($event) {
-                      _vm.selectUser($event)
-                    }
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "app-content" } }, [
+      _vm.selectedDomain
+        ? _c(
+            "div",
+            { attrs: { id: "app-content-wrapper" } },
+            [
+              _c("user-list", {
+                ref: "userList",
+                attrs: { domain: _vm.selectedDomain },
+                on: {
+                  "selected-user": function($event) {
+                    _vm.selectUser($event)
                   }
-                }),
-                _vm._v(" "),
-                !_vm.selectedUser
-                  ? _c("domain-detail", {
-                      attrs: { domain: _vm.selectedDomain },
-                      on: {
-                        "user-reload-needed": function($event) {
-                          _vm.reloadUsers()
-                        }
+                }
+              }),
+              _vm._v(" "),
+              !_vm.selectedUser
+                ? _c("domain-detail", {
+                    attrs: { domain: _vm.selectedDomain },
+                    on: {
+                      "user-reload-needed": function($event) {
+                        _vm.reloadUsers()
                       }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.selectedUser
-                  ? _c("user-detail", {
-                      attrs: {
-                        user: _vm.selectedUser,
-                        "domain-list": _vm.domainList
-                      }
-                    })
-                  : _vm._e()
-              ],
-              1
-            )
-          : _vm._e()
-      ])
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.selectedUser
+                ? _c("user-detail", {
+                    attrs: {
+                      user: _vm.selectedUser,
+                      domain: _vm.selectedDomain,
+                      "domain-list": _vm.domainList
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -13258,7 +13301,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "app-content-details" }, [
     !_vm.domainGroupsLoading
-      ? _c("div", [
+      ? _c("div", { staticStyle: { margin: "20px" } }, [
           _c(
             "select",
             {
@@ -13273,8 +13316,7 @@ var render = function() {
               staticStyle: {
                 "min-width": "200px",
                 width: "100%",
-                "min-height": "500px",
-                "margin-left": "20px"
+                "min-height": "500px"
               },
               attrs: { multiple: "" },
               on: {
@@ -13358,7 +13400,7 @@ var render = function() {
               return _c("li", { key: aliasObj.alias }, [
                 !aliasObj.deleting
                   ? _c("div", { staticClass: "aliasline" }, [
-                      _c("span", { staticClass: "litext" }, [
+                      _c("div", { staticClass: "litext" }, [
                         _vm._v(_vm._s(aliasObj.alias))
                       ]),
                       _vm._v(" "),
@@ -13375,7 +13417,7 @@ var render = function() {
                 _vm._v(" "),
                 aliasObj.deleting
                   ? _c("div", { staticClass: "aliasline" }, [
-                      _c("span", { staticClass: "litext deleted" }, [
+                      _c("div", { staticClass: "litext deleted" }, [
                         _vm._v("deleted " + _vm._s(aliasObj.alias))
                       ]),
                       _vm._v(" "),

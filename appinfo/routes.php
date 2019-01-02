@@ -18,5 +18,8 @@ return [
        ['name' => 'MailAdmin#getDomainGroupForDomain', 'url' => '/domaingroups/{domain}', 'verb' => 'GET'],
        ['name' => 'MailAdmin#domainGroupUpdate', 'url' => '/domaingroups', 'verb' => 'POST'],
        ['name' => 'MailAdmin#getUsers', 'url' => '/users/{domain}', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#getUserAlias', 'url' => '/useralias/{email}', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#createUserAlias', 'url' => '/useralias', 'verb' => 'POST'],
+       ['name' => 'MailAdmin#deleteUserAlias', 'url' => '/useralias/{email}/{alias}', 'verb' => 'DELETE'],
     ]
 ];

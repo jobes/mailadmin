@@ -1,9 +1,9 @@
 <template>
   <div class="app-content-details">
-    <div v-if="!domainGroupsLoading">
+    <div v-if="!domainGroupsLoading" style="margin: 20px;">
       <select
         multiple
-        style="min-width: 200px; width: 100%; min-height: 500px; margin-left: 20px;"
+        style="min-width: 200px; width: 100%; min-height: 500px;"
         v-model="domainGroupsSelected"
       >
         <option

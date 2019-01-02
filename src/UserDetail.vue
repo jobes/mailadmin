@@ -4,11 +4,11 @@
       <ul>
         <li v-for="aliasObj in aliasList" :key="aliasObj.alias">
           <div class="aliasline" v-if="!aliasObj.deleting">
-            <span class="litext">{{aliasObj.alias}}</span>
+            <div class="litext">{{aliasObj.alias}}</div>
             <span class="ulicon icon-delete" v-on:click="deleteAlias(aliasObj)"></span>
           </div>
           <div class="aliasline" v-if="aliasObj.deleting">
-            <span class="litext deleted">deleted {{aliasObj.alias}}</span>
+            <div class="litext deleted">deleted {{aliasObj.alias}}</div>
             <span class="ulicon icon-history" v-on:click="revertAlias(aliasObj)"></span>
           </div>
         </li>
@@ -33,26 +33,39 @@
 </template>
 
 <script>
-///TODO delete alias, add alias, alias list
+import axios from "nextcloud-axios";
 export default {
   data: function() {
     return {
       loading: false,
       newAliasFirstPartModel: "",
       newAliasSecondPartModel: "",
-      aliasList: [
-        { alias: "first@domain.sk", deleting: false, deleteTimer: null },
-        { alias: "second@domain.sk", deleting: false, deleteTimer: null },
-        { alias: "third@domain.sk", deleting: false, deleteTimer: null }
-      ]
+      aliasList: []
     };
   },
-  props: ["user", "domainList"],
+  props: ["user", "domainList", "domain"],
+  watch: {
+    user: function(user) {
+      this.loadUserAlias(user);
+    }
+  },
+  beforeMount: function() {
+    this.loadUserAlias(this.user);
+  },
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
+      let email = this.user+'@'+this.domain;
       aliasObj.deleteTimer = setTimeout(() => {
-        this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
+        axios
+          .delete(OC.generateUrl("/apps/mailadmin/useralias/"+email+"/"+aliasObj.alias))
+          .then(response => {
+            this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
+          }).catch(error => {
+            OC.Notification.showTemporary(`Failed to load domains`);
+            console.error(`Failed to load domains`);
+          });
+        
       }, 7000);
     },
     revertAlias(aliasObj) {
@@ -65,10 +78,44 @@ export default {
       return re.test(String(email).toLowerCase());
     },
     createNewAlias(firstpart, secondpart) {
-      console.log(
-        firstpart + "@" + secondpart,
-        this.validateEmail(firstpart + "@" + secondpart)
-      );
+      let aliasemail = firstpart + "@" + secondpart;
+      if (this.validateEmail(aliasemail)) {
+        axios
+          .post(OC.generateUrl("/apps/mailadmin/useralias"), {email: this.user+'@'+this.domain, alias: aliasemail})
+          .then(response => {
+            this.loadUserAlias(this.user);
+            this.newAliasFirstPartModel = '';
+            this.newAliasSecondPartModel= '';
+          }).catch(error => {
+            OC.Notification.showTemporary(`Failed to load domains`);
+            console.error(`Failed to load domains`);
+          });
+      } else {
+        OC.Notification.showTemporary(`alias inavlid`);
+      }
+    },
+    loadUserAlias(user) {
+      let email = user + "@" + this.domain;
+      this.loading = true;
+
+      axios
+        .get(OC.generateUrl("/apps/mailadmin/useralias/" + email))
+        .then(response => {
+          this.loading = false;
+          if (response.data.status === -1) {
+            throw new FollowException();
+          }
+          this.aliasList = response.data.map(x => {
+            x.deleting = false;
+            x.deleteTimer = null;
+            return x;
+          });
+        })
+        .catch(error => {
+          this.loading = false;
+          OC.Notification.showTemporary(`Failed to load domains`);
+          console.error(`Failed to load domains`);
+        });
     }
   }
 };
@@ -77,7 +124,16 @@ export default {
 <style lang="scss" scoped>
 ul {
   list-style: disc;
-  margin-left: 20px;
+  list-style-position: inside;
+}
+
+li {
+  &:hover {
+    background-color: WhiteSmoke;
+  }
+  padding-left: 10px;
+  width: calc(100% - 20px);
+  max-width: 500px;
 }
 
 .floatleft {
@@ -87,13 +143,12 @@ ul {
 .ulicon {
   @extend .floatleft;
   cursor: pointer;
+  margin: 2px;
 }
 
 .aliasline {
-  @extend .floatleft;
-  &:hover {
-    background-color: WhiteSmoke;
-  }
+  width: calc(100% - 20px);
+  float: right;
 }
 
 .app-content-details {
@@ -106,7 +161,7 @@ ul {
 
 .litext {
   @extend .floatleft;
-  width: 200px;
+  width: calc(100% - 20px);
 }
 
 .aliasform {

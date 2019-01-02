@@ -70,6 +70,13 @@
                     <name>alias</name>
                 </field>
             </index>
+            <index>
+                <name>mailadmin_user_alias_aliasunique</name>
+                <unique>1</unique>
+                <field>
+                    <name>alias</name>
+                </field>
+            </index>
         </declaration>
     </table>
     <table>

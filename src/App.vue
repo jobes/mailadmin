@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div id="app">
-      <div id="app-navigation">
-        <domain v-on:select-domain="selectDomain($event)" v-on:domain-list="domainList=$event"/>
-        <!--<div id="app-settings">
+  <div id="app">
+    <div id="app-navigation">
+      <domain v-on:select-domain="selectDomain($event)" v-on:domain-list="domainList=$event"/>
+      <!--<div id="app-settings">
 					<div id="app-settings-header">
 						<button class="settings-button"
 								data-apps-slide-toggle="#app-settings-content"
@@ -12,33 +11,36 @@
 					<div id="app-settings-content">
 						this
 					</div>
-        </div>-->
-      </div>
+      </div>-->
+    </div>
 
-      <div id="app-content">
-        <div id="app-content-wrapper" v-if="selectedDomain">
-          <user-list
-            v-bind:domain="selectedDomain"
-            v-on:selected-user="selectUser($event)"
-            ref="userList"
-          />
-          <domain-detail
-            v-bind:domain="selectedDomain"
-            v-if="!selectedUser"
-            v-on:user-reload-needed="reloadUsers()"
-          />
-          <user-detail
-            v-bind:user="selectedUser"
-            v-bind:domain-list="domainList"
-            v-if="selectedUser"
-          />
-        </div>
+    <div id="app-content">
+      <div id="app-content-wrapper" v-if="selectedDomain">
+        <user-list
+          v-bind:domain="selectedDomain"
+          v-on:selected-user="selectUser($event)"
+          ref="userList"
+        />
+        <domain-detail
+          v-bind:domain="selectedDomain"
+          v-if="!selectedUser"
+          v-on:user-reload-needed="reloadUsers()"
+        />
+        <user-detail
+          v-bind:user="selectedUser"
+          v-bind:domain="selectedDomain"
+          v-bind:domain-list="domainList"
+          v-if="selectedUser"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+#app {
+  width: 100%;
+}
 </style>
 
 <script>
