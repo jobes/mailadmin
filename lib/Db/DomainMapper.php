@@ -16,6 +16,20 @@ class DomainMapper extends Mapper {
     }
 
     public function delete($domain) {
+        try {
+            $this->db->beginTransaction();
+            $stmt = $this->db->prepare('DELETE FROM `' . $this->tableName . '` WHERE `domain` = ?');
+            $stmt->execute([$domain]);
+            
+            $stmt = $this->db->prepare('DELETE FROM `*PREFIX*mailadmin_domain_group` WHERE `domain` = ?');
+            $stmt->execute([$domain]);
+
+            $this->db->commit();
+        } catch (Exception $e){
+            $this->db->rollback();
+            throw $e;
+        }
+
         $sql = 'DELETE FROM `' . $this->tableName . '` WHERE `domain` = ?';
         $stmt = $this->execute($sql, [$domain]);
         $stmt->closeCursor();

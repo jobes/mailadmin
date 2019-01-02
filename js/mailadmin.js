@@ -1851,6 +1851,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1874,7 +1878,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isAdmin: false,
       selectedDomain: null,
-      selectedUser: null
+      selectedUser: null,
+      domainList: []
     };
   },
   computed: {},
@@ -2017,7 +2022,7 @@ __webpack_require__.r(__webpack_exports__);
       domainCreatingWait: false,
       domainMenuId: null,
       domainsLoading: false,
-      domainlist: [],
+      domainList: [],
       selectedDomain: null
     };
   },
@@ -2082,11 +2087,12 @@ __webpack_require__.r(__webpack_exports__);
           throw new FollowException();
         }
 
-        this.domainlist = response.data.map(x => {
+        this.domainList = response.data.map(x => {
           x.deleting = false;
           x.deletetimeout = null;
           return x;
         });
+        this.$emit('domain-list', this.domainList);
       }).catch(error => {
         this.domainsLoading = false;
         OC.Notification.showTemporary(`Failed to load domains`);
@@ -2120,9 +2126,10 @@ __webpack_require__.r(__webpack_exports__);
         nextcloud_axios__WEBPACK_IMPORTED_MODULE_1___default.a.delete(OC.generateUrl("/apps/mailadmin/domains/" + domain.domain), {}, {
           headers: {}
         }).then(() => {
-          this.domainlist = this.domainlist.filter(x => {
+          this.domainList = this.domainList.filter(x => {
             return x.domain != domain.domain;
           });
+          this.$emit('domain-list', this.domainList);
         }, () => {
           domain.deleting = false;
           OC.Notification.showTemporary(`Failed to delete domain`);
@@ -2284,6 +2291,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 ///TODO delete alias, add alias, alias list
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function () {
@@ -2306,7 +2322,7 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
-  props: ["user"],
+  props: ["user", "domainList"],
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
@@ -11228,7 +11244,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -12959,6 +12975,9 @@ var render = function() {
             on: {
               "select-domain": function($event) {
                 _vm.selectDomain($event)
+              },
+              "domain-list": function($event) {
+                _vm.domainList = $event
               }
             }
           })
@@ -12994,7 +13013,12 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.selectedUser
-                  ? _c("user-detail", { attrs: { user: _vm.selectedUser } })
+                  ? _c("user-detail", {
+                      attrs: {
+                        user: _vm.selectedUser,
+                        "domain-list": _vm.domainList
+                      }
+                    })
                   : _vm._e()
               ],
               1
@@ -13115,7 +13139,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._l(_vm.domainlist, function(domainObj) {
+        _vm._l(_vm.domainList, function(domainObj) {
           return _c(
             "li",
             { key: domainObj.domain, class: { deleted: domainObj.deleting } },
@@ -13406,31 +13430,45 @@ var render = function() {
                 }
               }),
               _vm._v("@\n      "),
-              _c("select", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.newAliasSecondPartModel,
-                    expression: "newAliasSecondPartModel"
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newAliasSecondPartModel,
+                      expression: "newAliasSecondPartModel"
+                    }
+                  ],
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.newAliasSecondPartModel = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
                   }
-                ],
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.newAliasSecondPartModel = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              }),
+                },
+                _vm._l(_vm.domainList, function(domainObj) {
+                  return _c(
+                    "option",
+                    {
+                      key: domainObj.domain,
+                      domProps: { value: domainObj.domain }
+                    },
+                    [_vm._v(_vm._s(domainObj.domain))]
+                  )
+                }),
+                0
+              ),
               _vm._v(" "),
               _c("button", [_vm._v("save")])
             ]
@@ -28147,15 +28185,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************!*\
   !*** ./src/UserDetail.vue ***!
   \****************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UserDetail_vue_vue_type_template_id_2a3c46b5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserDetail.vue?vue&type=template&id=2a3c46b5&scoped=true& */ "./src/UserDetail.vue?vue&type=template&id=2a3c46b5&scoped=true&");
 /* harmony import */ var _UserDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserDetail.vue?vue&type=script&lang=js& */ "./src/UserDetail.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _UserDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _UserDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _UserDetail_vue_vue_type_style_index_0_id_2a3c46b5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UserDetail.vue?vue&type=style&index=0&id=2a3c46b5&lang=scss&scoped=true& */ "./src/UserDetail.vue?vue&type=style&index=0&id=2a3c46b5&lang=scss&scoped=true&");
+/* empty/unused harmony star reexport *//* harmony import */ var _UserDetail_vue_vue_type_style_index_0_id_2a3c46b5_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UserDetail.vue?vue&type=style&index=0&id=2a3c46b5&lang=scss&scoped=true& */ "./src/UserDetail.vue?vue&type=style&index=0&id=2a3c46b5&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -28187,7 +28224,7 @@ component.options.__file = "src/UserDetail.vue"
 /*!*****************************************************!*\
   !*** ./src/UserDetail.vue?vue&type=script&lang=js& ***!
   \*****************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

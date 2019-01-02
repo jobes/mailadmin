@@ -20,7 +20,7 @@
         </div>
       </li>
       <li
-        v-for="domainObj in domainlist"
+        v-for="domainObj in domainList"
         :key="domainObj.domain"
         v-bind:class="{deleted:domainObj.deleting}"
       >
@@ -88,7 +88,7 @@ export default {
       domainCreatingWait: false,
       domainMenuId: null,
       domainsLoading: false,
-      domainlist: [],
+      domainList: [],
       selectedDomain: null
     };
   },
@@ -156,11 +156,12 @@ export default {
           if (response.data.status === -1) {
             throw new FollowException();
           }
-          this.domainlist = response.data.map(x => {
+          this.domainList = response.data.map(x => {
             x.deleting = false;
             x.deletetimeout = null;
             return x;
           });
+          this.$emit('domain-list',this.domainList);
         })
         .catch(error => {
           this.domainsLoading = false;
@@ -199,9 +200,10 @@ export default {
           )
           .then(
             () => {
-              this.domainlist = this.domainlist.filter(x => {
+              this.domainList = this.domainList.filter(x => {
                 return x.domain != domain.domain;
               });
+              this.$emit('domain-list',this.domainList);
             },
             () => {
               domain.deleting = false;

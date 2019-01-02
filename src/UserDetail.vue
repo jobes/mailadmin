@@ -13,9 +13,18 @@
           </div>
         </li>
       </ul>
-      <form class="aliasform" @submit.prevent="createNewAlias(newAliasFirstPartModel, newAliasSecondPartModel)">
+      <form
+        class="aliasform"
+        @submit.prevent="createNewAlias(newAliasFirstPartModel, newAliasSecondPartModel)"
+      >
         <input type="text" v-model="newAliasFirstPartModel" placeholder="new alias">@
-        <select v-model="newAliasSecondPartModel"></select>
+        <select v-model="newAliasSecondPartModel">
+          <option
+            v-for="domainObj in domainList"
+            :key="domainObj.domain"
+            v-bind:value="domainObj.domain"
+          >{{domainObj.domain}}</option>
+        </select>
         <button>save</button>
       </form>
     </div>
@@ -30,7 +39,7 @@ export default {
     return {
       loading: false,
       newAliasFirstPartModel: "",
-      newAliasSecondPartModel:"",
+      newAliasSecondPartModel: "",
       aliasList: [
         { alias: "first@domain.sk", deleting: false, deleteTimer: null },
         { alias: "second@domain.sk", deleting: false, deleteTimer: null },
@@ -38,7 +47,7 @@ export default {
       ]
     };
   },
-  props: ["user"],
+  props: ["user", "domainList"],
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
@@ -56,7 +65,10 @@ export default {
       return re.test(String(email).toLowerCase());
     },
     createNewAlias(firstpart, secondpart) {
-        console.log(firstpart+"@"+secondpart, this.validateEmail(firstpart+"@"+secondpart));
+      console.log(
+        firstpart + "@" + secondpart,
+        this.validateEmail(firstpart + "@" + secondpart)
+      );
     }
   }
 };
@@ -98,6 +110,6 @@ ul {
 }
 
 .aliasform {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 </style>

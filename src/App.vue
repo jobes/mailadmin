@@ -2,7 +2,7 @@
   <div>
     <div id="app">
       <div id="app-navigation">
-        <domain v-on:select-domain="selectDomain($event)"/>
+        <domain v-on:select-domain="selectDomain($event)" v-on:domain-list="domainList=$event"/>
         <!--<div id="app-settings">
 					<div id="app-settings-header">
 						<button class="settings-button"
@@ -27,7 +27,11 @@
             v-if="!selectedUser"
             v-on:user-reload-needed="reloadUsers()"
           />
-          <user-detail v-bind:user="selectedUser" v-if="selectedUser"/>
+          <user-detail
+            v-bind:user="selectedUser"
+            v-bind:domain-list="domainList"
+            v-if="selectedUser"
+          />
         </div>
       </div>
     </div>
@@ -43,7 +47,7 @@ import axios from "nextcloud-axios";
 import Domain from "./Domain.vue";
 import DomainDetail from "./DomainDetail.vue";
 import UserList from "./UserList.vue";
-import UserDetail from './UserDetail.vue'
+import UserDetail from "./UserDetail.vue";
 
 export default {
   name: "App",
@@ -62,7 +66,8 @@ export default {
     return {
       isAdmin: false,
       selectedDomain: null,
-      selectedUser: null
+      selectedUser: null,
+      domainList: []
     };
   },
   computed: {},
