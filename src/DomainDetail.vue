@@ -1,5 +1,10 @@
 <template>
   <div class="app-content-details">
+    <div
+      id="app-navigation-toggle-back"
+      class="details-back icon-download"
+      v-on:click="hideDetails()"
+    ></div>
     <div v-if="!domainGroupsLoading" style="margin: 20px;">
       <select
         multiple
@@ -16,7 +21,6 @@
     </div>
     <div v-if="domainGroupsLoading" class="icon-loading" style="width: 200px; height: 200px;"></div>
   </div>
-  
 </template>
 
 <script>
@@ -100,6 +104,10 @@ export default {
           OC.Notification.showTemporary(`Failed to load groups`);
           console.error(error);
         });
+    },
+    hideDetails() {
+      $("#app-navigation-toggle").removeClass("showdetails");
+      $(".app-content-list").removeClass("showdetails");
     }
   }
 };

@@ -37,9 +37,36 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 #app {
   width: 100%;
+}
+@media only screen and (max-width: 768px) {
+  .contacts-list:not(.mobile-show) {
+    display: none;
+  }
+  #app-navigation-toggle.showdetails {
+    transform: translate(-50px, 0);
+  }
+  #app-navigation-toggle-back {
+    position: fixed;
+    display: inline-block !important;
+    top: 50px;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    z-index: 149;
+    background-color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    opacity: 0.6;
+    transform: rotate(90deg);
+  }
+  .app-content-details {
+    margin-top: 40px;
+  }
+}
+.app-content-details #app-navigation-toggle-back {
+  display: none;
 }
 </style>
 

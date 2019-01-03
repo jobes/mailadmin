@@ -1,5 +1,10 @@
 <template>
   <div class="app-content-details">
+    <div
+      id="app-navigation-toggle-back"
+      class="details-back icon-download"
+      v-on:click="hideDetails()"
+    ></div>
     <div v-if="!loading">Alias:
       <ul>
         <li v-for="aliasObj in permanentAliasList" :key="aliasObj.alias">
@@ -213,6 +218,10 @@ export default {
             OC.Notification.showTemporary(`Failed to save alias`);
           });
       }
+    },
+    hideDetails() {
+      $("#app-navigation-toggle").removeClass("showdetails");
+      $(".app-content-list").removeClass("showdetails");
     }
   }
 };
@@ -271,6 +280,6 @@ li {
 }
 
 .aliasform {
-  margin-top: 30px;
+  margin-top: 0;
 }
 </style>

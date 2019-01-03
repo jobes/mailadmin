@@ -41,7 +41,12 @@ export default {
   },
   props: ["domain"],
   methods: {
-    activateUser(user) {
+    activateUser(user, noselect = false) {
+      if (!noselect) {
+        $("#app-navigation-toggle").addClass("showdetails");
+        $(".app-content-list").addClass("showdetails");
+      }
+
       if (user === this.selectedUser) return;
       this.selectedUser = user;
       this.$emit("selected-user", user);
@@ -49,7 +54,7 @@ export default {
     reloadUsers() {
       this.userListLoading = true;
       this.userList = [];
-      this.activateUser(null);
+      this.activateUser(null, true);
 
       axios
         .get(OC.generateUrl("/apps/mailadmin/users/" + this.domain))
