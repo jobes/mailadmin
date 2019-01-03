@@ -2,7 +2,7 @@
   <div class="app-content-details">
     <div v-if="!loading">Alias:
       <ul>
-        <li v-for="aliasObj in aliasList" :key="aliasObj.alias">
+        <li v-for="aliasObj in permanentAliasList" :key="aliasObj.alias">
           <div class="aliasline" v-if="!aliasObj.deleting">
             <div class="litext">{{aliasObj.alias}}</div>
             <span class="ulicon icon-delete" v-on:click="deleteAlias(aliasObj)"></span>
@@ -27,6 +27,36 @@
         </select>
         <button>save</button>
       </form>
+      <div style="margin-top: 30px;">Temporary alias:</div>
+      <ul>
+        <li v-for="aliasObj in temporaryAliasList" :key="aliasObj.alias">
+          <div class="aliasline" v-if="!aliasObj.deleting">
+            <div
+              class="litext"
+            >{{aliasObj.alias}},&nbsp;&nbsp;&nbsp;{{(new Date(aliasObj.validto)).toDateString()}}</div>
+            <span class="ulicon icon-delete" v-on:click="deleteAlias(aliasObj)"></span>
+          </div>
+          <div class="aliasline" v-if="aliasObj.deleting">
+            <div class="litext deleted">deleted {{aliasObj.alias}}</div>
+            <span class="ulicon icon-history" v-on:click="revertAlias(aliasObj)"></span>
+          </div>
+        </li>
+      </ul>
+      <form
+        class="aliasform"
+        @submit.prevent="createNewTempAlias(newTempAliasFirstPartModel, newTempAliasSecondPartModel, newTempAliasDate)"
+      >
+        <input type="text" v-model="newTempAliasFirstPartModel" placeholder="new alias" readonly>@
+        <select v-model="newTempAliasSecondPartModel">
+          <option
+            v-for="domainObj in domainList"
+            :key="domainObj.domain"
+            v-bind:value="domainObj.domain"
+          >{{domainObj.domain}}</option>
+        </select>
+        <datetime-picker :lang="'en'" v-model="newTempAliasDate"/>
+        <button>save</button>
+      </form>
     </div>
     <div v-if="loading" class="icon-loading" style="width: 200px; height: 200px;"></div>
   </div>
@@ -34,13 +64,20 @@
 
 <script>
 import axios from "nextcloud-axios";
+import { DatetimePicker } from "nextcloud-vue";
 export default {
+  components: {
+    DatetimePicker
+  },
   data: function() {
     return {
       loading: false,
       newAliasFirstPartModel: "",
       newAliasSecondPartModel: "",
-      aliasList: []
+      newTempAliasFirstPartModel: "",
+      newTempAliasSecondPartModel: "",
+      aliasList: [],
+      newTempAliasDate: ""
     };
   },
   props: ["user", "domainList", "domain"],
@@ -52,20 +89,38 @@ export default {
   beforeMount: function() {
     this.loadUserAlias(this.user);
   },
+  computed: {
+    temporaryAliasList: function() {
+      return this.aliasList.filter(x => {
+        return x.validto;
+      });
+    },
+    permanentAliasList: function() {
+      return this.aliasList.filter(x => {
+        return !x.validto;
+      });
+    }
+  },
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
-      let email = this.user+'@'+this.domain;
+      let email = this.user + "@" + this.domain;
       aliasObj.deleteTimer = setTimeout(() => {
         axios
-          .delete(OC.generateUrl("/apps/mailadmin/useralias/"+email+"/"+aliasObj.alias))
+          .delete(
+            OC.generateUrl(
+              "/apps/mailadmin/useralias/" + email + "/" + aliasObj.alias
+            )
+          )
           .then(response => {
-            this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
-          }).catch(error => {
+            this.aliasList = this.aliasList.filter(
+              x => x.alias != aliasObj.alias
+            );
+          })
+          .catch(error => {
             OC.Notification.showTemporary(`Failed to load domains`);
             console.error(`Failed to load domains`);
           });
-        
       }, 7000);
     },
     revertAlias(aliasObj) {
@@ -81,20 +136,29 @@ export default {
       let aliasemail = firstpart + "@" + secondpart;
       if (this.validateEmail(aliasemail)) {
         axios
-          .post(OC.generateUrl("/apps/mailadmin/useralias"), {email: this.user+'@'+this.domain, alias: aliasemail})
+          .post(OC.generateUrl("/apps/mailadmin/useralias"), {
+            email: this.user + "@" + this.domain,
+            alias: aliasemail
+          })
           .then(response => {
             this.loadUserAlias(this.user);
-            this.newAliasFirstPartModel = '';
-            this.newAliasSecondPartModel= '';
-          }).catch(error => {
-            OC.Notification.showTemporary(`Failed to load domains`);
-            console.error(`Failed to load domains`);
+            this.newAliasFirstPartModel = "";
+            this.newAliasSecondPartModel = "";
+          })
+          .catch(error => {
+            OC.Notification.showTemporary(`Failed to create alias`);
           });
       } else {
-        OC.Notification.showTemporary(`alias inavlid`);
+        OC.Notification.showTemporary(`alias invalid`);
       }
     },
     loadUserAlias(user) {
+      (this.newAliasFirstPartModel = ""),
+        (this.newAliasSecondPartModel = ""),
+        (this.newTempAliasFirstPartModel = this.generateRandomText()),
+        (this.newTempAliasSecondPartModel = ""),
+        (this.aliasList = []),
+        (this.newTempAliasDate = "");
       let email = user + "@" + this.domain;
       this.loading = true;
 
@@ -116,12 +180,54 @@ export default {
           OC.Notification.showTemporary(`Failed to load domains`);
           console.error(`Failed to load domains`);
         });
+    },
+    generateRandomText() {
+      var length = 15;
+      var result = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+      for (var i = 0; i < length; i++)
+        result += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      return result;
+    },
+    createNewTempAlias(firstpart, secondpart, todate) {
+      let aliasemail = firstpart + "@" + secondpart;
+      if (!todate || todate.getTime() < new Date().getTime()) {
+        OC.Notification.showTemporary(`date invalid`);
+      } else if (!this.validateEmail(aliasemail)) {
+        OC.Notification.showTemporary(`alias invalid`);
+      } else {
+        axios
+          .post(OC.generateUrl("/apps/mailadmin/useralias"), {
+            email: this.user + "@" + this.domain,
+            alias: aliasemail,
+            validto: todate
+          })
+          .then(response => {
+            this.loadUserAlias(this.user);
+            this.newTempAliasFirstPartModel = this.generateRandomText();
+            this.newTempAliasSecondPartModel = "";
+          })
+          .catch(error => {
+            OC.Notification.showTemporary(`Failed to save alias`);
+          });
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+input,
+select {
+  width: 150px;
+}
+
+.mx-datepicker {
+  width: 120px;
+}
+
 ul {
   list-style: disc;
   list-style-position: inside;

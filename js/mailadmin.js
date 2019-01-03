@@ -2270,6 +2270,38 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-axios */ "./node_modules/nextcloud-axios/dist/client.js");
 /* harmony import */ var nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2305,13 +2337,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    DatetimePicker: nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__["DatetimePicker"]
+  },
   data: function () {
     return {
       loading: false,
       newAliasFirstPartModel: "",
       newAliasSecondPartModel: "",
-      aliasList: []
+      newTempAliasFirstPartModel: "",
+      newTempAliasSecondPartModel: "",
+      aliasList: [],
+      newTempAliasDate: ""
     };
   },
   props: ["user", "domainList", "domain"],
@@ -2323,10 +2362,22 @@ __webpack_require__.r(__webpack_exports__);
   beforeMount: function () {
     this.loadUserAlias(this.user);
   },
+  computed: {
+    temporaryAliasList: function () {
+      return this.aliasList.filter(x => {
+        return x.validto;
+      });
+    },
+    permanentAliasList: function () {
+      return this.aliasList.filter(x => {
+        return !x.validto;
+      });
+    }
+  },
   methods: {
     deleteAlias(aliasObj) {
       aliasObj.deleting = true;
-      let email = this.user + '@' + this.domain;
+      let email = this.user + "@" + this.domain;
       aliasObj.deleteTimer = setTimeout(() => {
         nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(OC.generateUrl("/apps/mailadmin/useralias/" + email + "/" + aliasObj.alias)).then(response => {
           this.aliasList = this.aliasList.filter(x => x.alias != aliasObj.alias);
@@ -2353,22 +2404,22 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.validateEmail(aliasemail)) {
         nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(OC.generateUrl("/apps/mailadmin/useralias"), {
-          email: this.user + '@' + this.domain,
+          email: this.user + "@" + this.domain,
           alias: aliasemail
         }).then(response => {
           this.loadUserAlias(this.user);
-          this.newAliasFirstPartModel = '';
-          this.newAliasSecondPartModel = '';
+          this.newAliasFirstPartModel = "";
+          this.newAliasSecondPartModel = "";
         }).catch(error => {
-          OC.Notification.showTemporary(`Failed to load domains`);
-          console.error(`Failed to load domains`);
+          OC.Notification.showTemporary(`Failed to create alias`);
         });
       } else {
-        OC.Notification.showTemporary(`alias inavlid`);
+        OC.Notification.showTemporary(`alias invalid`);
       }
     },
 
     loadUserAlias(user) {
+      this.newAliasFirstPartModel = "", this.newAliasSecondPartModel = "", this.newTempAliasFirstPartModel = this.generateRandomText(), this.newTempAliasSecondPartModel = "", this.aliasList = [], this.newTempAliasDate = "";
       let email = user + "@" + this.domain;
       this.loading = true;
       nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(OC.generateUrl("/apps/mailadmin/useralias/" + email)).then(response => {
@@ -2388,6 +2439,38 @@ __webpack_require__.r(__webpack_exports__);
         OC.Notification.showTemporary(`Failed to load domains`);
         console.error(`Failed to load domains`);
       });
+    },
+
+    generateRandomText() {
+      var length = 15;
+      var result = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+      for (var i = 0; i < length; i++) result += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      return result;
+    },
+
+    createNewTempAlias(firstpart, secondpart, todate) {
+      let aliasemail = firstpart + "@" + secondpart;
+
+      if (!todate || todate.getTime() < new Date().getTime()) {
+        OC.Notification.showTemporary(`date invalid`);
+      } else if (!this.validateEmail(aliasemail)) {
+        OC.Notification.showTemporary(`alias invalid`);
+      } else {
+        nextcloud_axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(OC.generateUrl("/apps/mailadmin/useralias"), {
+          email: this.user + "@" + this.domain,
+          alias: aliasemail,
+          validto: todate
+        }).then(response => {
+          this.loadUserAlias(this.user);
+          this.newTempAliasFirstPartModel = this.generateRandomText();
+          this.newTempAliasSecondPartModel = "";
+        }).catch(error => {
+          OC.Notification.showTemporary(`Failed to save alias`);
+        });
+      }
     }
 
   }
@@ -11269,7 +11352,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "ul[data-v-2a3c46b5] {\n  list-style: disc;\n  list-style-position: inside;\n}\nli[data-v-2a3c46b5] {\n  padding-left: 10px;\n  width: calc(100% - 20px);\n  max-width: 500px;\n}\nli[data-v-2a3c46b5]:hover {\n    background-color: WhiteSmoke;\n}\n.floatleft[data-v-2a3c46b5], .ulicon[data-v-2a3c46b5], .litext[data-v-2a3c46b5] {\n  float: left;\n}\n.ulicon[data-v-2a3c46b5] {\n  cursor: pointer;\n  margin: 2px;\n}\n.aliasline[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n  float: right;\n}\n.app-content-details[data-v-2a3c46b5] {\n  margin-left: 10px;\n}\n.deleted[data-v-2a3c46b5] {\n  color: grey;\n}\n.litext[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n}\n.aliasform[data-v-2a3c46b5] {\n  margin-top: 30px;\n}\n", ""]);
+exports.push([module.i, "input[data-v-2a3c46b5],\nselect[data-v-2a3c46b5] {\n  width: 150px;\n}\n.mx-datepicker[data-v-2a3c46b5] {\n  width: 120px;\n}\nul[data-v-2a3c46b5] {\n  list-style: disc;\n  list-style-position: inside;\n}\nli[data-v-2a3c46b5] {\n  padding-left: 10px;\n  width: calc(100% - 20px);\n  max-width: 500px;\n}\nli[data-v-2a3c46b5]:hover {\n    background-color: WhiteSmoke;\n}\n.floatleft[data-v-2a3c46b5], .ulicon[data-v-2a3c46b5], .litext[data-v-2a3c46b5] {\n  float: left;\n}\n.ulicon[data-v-2a3c46b5] {\n  cursor: pointer;\n  margin: 2px;\n}\n.aliasline[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n  float: right;\n}\n.app-content-details[data-v-2a3c46b5] {\n  margin-left: 10px;\n}\n.deleted[data-v-2a3c46b5] {\n  color: grey;\n}\n.litext[data-v-2a3c46b5] {\n  width: calc(100% - 20px);\n}\n.aliasform[data-v-2a3c46b5] {\n  margin-top: 30px;\n}\n", ""]);
 
 // exports
 
@@ -13396,7 +13479,7 @@ var render = function() {
           _vm._v("Alias:\n    "),
           _c(
             "ul",
-            _vm._l(_vm.aliasList, function(aliasObj) {
+            _vm._l(_vm.permanentAliasList, function(aliasObj) {
               return _c("li", { key: aliasObj.alias }, [
                 !aliasObj.deleting
                   ? _c("div", { staticClass: "aliasline" }, [
@@ -13514,6 +13597,149 @@ var render = function() {
               _vm._v(" "),
               _c("button", [_vm._v("save")])
             ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "margin-top": "30px" } }, [
+            _vm._v("Temporary alias:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.temporaryAliasList, function(aliasObj) {
+              return _c("li", { key: aliasObj.alias }, [
+                !aliasObj.deleting
+                  ? _c("div", { staticClass: "aliasline" }, [
+                      _c("div", { staticClass: "litext" }, [
+                        _vm._v(
+                          _vm._s(aliasObj.alias) +
+                            ",   " +
+                            _vm._s(new Date(aliasObj.validto).toDateString())
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("span", {
+                        staticClass: "ulicon icon-delete",
+                        on: {
+                          click: function($event) {
+                            _vm.deleteAlias(aliasObj)
+                          }
+                        }
+                      })
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                aliasObj.deleting
+                  ? _c("div", { staticClass: "aliasline" }, [
+                      _c("div", { staticClass: "litext deleted" }, [
+                        _vm._v("deleted " + _vm._s(aliasObj.alias))
+                      ]),
+                      _vm._v(" "),
+                      _c("span", {
+                        staticClass: "ulicon icon-history",
+                        on: {
+                          click: function($event) {
+                            _vm.revertAlias(aliasObj)
+                          }
+                        }
+                      })
+                    ])
+                  : _vm._e()
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              staticClass: "aliasform",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.createNewTempAlias(
+                    _vm.newTempAliasFirstPartModel,
+                    _vm.newTempAliasSecondPartModel,
+                    _vm.newTempAliasDate
+                  )
+                }
+              }
+            },
+            [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newTempAliasFirstPartModel,
+                    expression: "newTempAliasFirstPartModel"
+                  }
+                ],
+                attrs: { type: "text", placeholder: "new alias", readonly: "" },
+                domProps: { value: _vm.newTempAliasFirstPartModel },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newTempAliasFirstPartModel = $event.target.value
+                  }
+                }
+              }),
+              _vm._v("@\n      "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newTempAliasSecondPartModel,
+                      expression: "newTempAliasSecondPartModel"
+                    }
+                  ],
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.newTempAliasSecondPartModel = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(_vm.domainList, function(domainObj) {
+                  return _c(
+                    "option",
+                    {
+                      key: domainObj.domain,
+                      domProps: { value: domainObj.domain }
+                    },
+                    [_vm._v(_vm._s(domainObj.domain))]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("datetime-picker", {
+                attrs: { lang: "en" },
+                model: {
+                  value: _vm.newTempAliasDate,
+                  callback: function($$v) {
+                    _vm.newTempAliasDate = $$v
+                  },
+                  expression: "newTempAliasDate"
+                }
+              }),
+              _vm._v(" "),
+              _c("button", [_vm._v("save")])
+            ],
+            1
           )
         ])
       : _vm._e(),
