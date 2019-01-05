@@ -9,10 +9,12 @@ use OCP\AppFramework\Controller;
 
 use OCA\MailAdmin\Db\Domain;
 use OCA\MailAdmin\Db\UserAlias;
+use OCA\MailAdmin\Db\DomainAlias;
 use OCA\MailAdmin\Db\DomainMapper;
 use OCA\MailAdmin\Db\GroupMapper;
 use OCA\MailAdmin\Db\DomainGroupMapper;
 use OCA\MailAdmin\Db\UserMapper;
+use OCA\MailAdmin\Db\DomainAliasMapper;
 use OCA\MailAdmin\Db\UserAliasMapper;
 
 use \OCP\ILogger;
@@ -28,6 +30,7 @@ class MailAdminController extends Controller {
    private $domainGroupMapper;
    private $userMapper;
    private $userAliasMapper;
+   private $domainAliasMapper;
      
 
    use Errors;
@@ -40,7 +43,8 @@ class MailAdminController extends Controller {
                               GroupMapper $groupMapper,
                               DomainGroupMapper $domainGroupMapper,
                               UserMapper $userMapper,
-                              UserAliasMapper $userAliasMapper
+                              UserAliasMapper $userAliasMapper,
+                              DomainAliasMapper $domainAliasMapper
                               ){
       parent::__construct($AppName, $request);
       $this->service = $service;
@@ -51,6 +55,7 @@ class MailAdminController extends Controller {
       $this->domainGroupMapper = $domainGroupMapper;
       $this->userMapper = $userMapper;
       $this->userAliasMapper = $userAliasMapper;
+      $this->domainAliasMapper = $domainAliasMapper;
    }
 
    /**
@@ -126,21 +131,36 @@ class MailAdminController extends Controller {
     * @param string $validto
    */
   public function createUserAlias($email, $alias, $validto) {
-   $userAliasObj = new UserAlias();
-   $userAliasObj->setEmail($email);
-   $userAliasObj->setAlias($alias);
-   $userAliasObj->setValidto($validto);
-   return $this->userAliasMapper->insert($userAliasObj);
-}
+      $userAliasObj = new UserAlias();
+      $userAliasObj->setEmail($email);
+      $userAliasObj->setAlias($alias);
+      $userAliasObj->setValidto($validto);
+      return $this->userAliasMapper->insert($userAliasObj);
+   }
 
    /**
-    * @param int $id
+    * @param string $domain
     */
-   public function show($id) {
-      try {
-         return new DataResponse($this->mapper->find($id, $this->userId));
-      } catch(Exception $e) {
-         return new DataResponse([], Http::STATUS_NOT_FOUND);
-      }
+   public function getDomainAlias($domain) {
+      return $this->domainAliasMapper->findAlias($domain);
+   }
+
+   /**
+    * @param string $domain
+    * @param string $alias
+    */
+   public function deleteDomainAlias($domain, $alias) {
+      return $this->domainAliasMapper->delete($alias, $email);
+   }
+
+   /**
+    * @param string $domain
+    * @param string $alias
+   */
+  public function createDomainAlias($domain, $alias) {
+      $domainAliasObj = new DomainAlias();
+      $domainAliasObj->setDomain($domain);
+      $domainAliasObj->setAlias($alias);
+      return $this->domainAliasMapper->insert($domainAliasObj);
    }
 }

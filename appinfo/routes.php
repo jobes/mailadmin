@@ -21,5 +21,8 @@ return [
        ['name' => 'MailAdmin#getUserAlias', 'url' => '/useralias/{email}', 'verb' => 'GET'],
        ['name' => 'MailAdmin#createUserAlias', 'url' => '/useralias', 'verb' => 'POST'],
        ['name' => 'MailAdmin#deleteUserAlias', 'url' => '/useralias/{email}/{alias}', 'verb' => 'DELETE'],
+       ['name' => 'MailAdmin#getDomainAlias', 'url' => '/domainalias/{domain}', 'verb' => 'GET'],
+       ['name' => 'MailAdmin#createDomainAlias', 'url' => '/domainalias', 'verb' => 'POST'],
+       ['name' => 'MailAdmin#deleteDomainAlias', 'url' => '/domainalias/{alias}', 'verb' => 'DELETE'],
     ]
 ];
