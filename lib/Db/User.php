@@ -13,4 +13,8 @@ class User extends Entity implements JsonSerializable {
             'uid' => $this->uid
         ];
     }
+
+    public function getUid() {
+        return $this->uid;
+    }
 }

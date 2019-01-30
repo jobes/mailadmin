@@ -16,4 +16,11 @@ class UserMapper extends Mapper {
         WHERE *PREFIX*mailadmin_domain_group.domain = ? GROUP BY uid';
         return $this->findEntities($sql, [$domain]);
     }
+
+    public function findAllUsers() {
+        $sql = 'SELECT uid FROM *PREFIX*group_user LEFT JOIN *PREFIX*mailadmin_domain_group 
+        ON *PREFIX*group_user.gid = *PREFIX*mailadmin_domain_group.gid
+        GROUP BY uid';
+        return $this->findEntities($sql, []);
+    }
 }

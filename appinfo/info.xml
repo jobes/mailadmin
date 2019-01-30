@@ -21,4 +21,7 @@ Mailboxes are created for users in nextcloud groups defined by user.]]></descrip
             <route>mailadmin.page.index</route>
         </navigation>
     </navigations>
+    <background-jobs>
+        <job>OCA\MailAdmin\Cron\MailFileScan</job>
+    </background-jobs>
 </info>
