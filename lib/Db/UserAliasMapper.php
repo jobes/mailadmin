@@ -22,4 +22,11 @@ class UserAliasMapper extends Mapper {
         return $entity;
     }
 
+    public function deleteAllOldAlias() {
+        $sql = 'DELETE FROM `' . $this->tableName . '` WHERE `validto` < ?';
+        $stmt = $this->execute($sql, [date("Y-m-d")]);
+        $stmt->closeCursor();
+        return $entity;
+    }
+
 }

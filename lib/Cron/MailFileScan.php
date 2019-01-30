@@ -10,7 +10,6 @@ class MailFileScan extends TimedJob {
     private $userMapper;
     private $logger;
     private $db;
-    private $domainMapper;
 
     public function __construct(UserMapper $userMapper, ILogger $logger, IDbConnection $db) {
         $this->userMapper = $userMapper;

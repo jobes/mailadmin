@@ -23,5 +23,6 @@ Mailboxes are created for users in nextcloud groups defined by user.]]></descrip
     </navigations>
     <background-jobs>
         <job>OCA\MailAdmin\Cron\MailFileScan</job>
+        <job>OCA\MailAdmin\Cron\ClearOldUserAlias</job>
     </background-jobs>
 </info>
