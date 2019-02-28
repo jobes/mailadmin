@@ -1812,6 +1812,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DomainDetail_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DomainDetail.vue */ "./src/DomainDetail.vue");
 /* harmony import */ var _UserList_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserList.vue */ "./src/UserList.vue");
 /* harmony import */ var _UserDetail_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UserDetail.vue */ "./src/UserDetail.vue");
+/* harmony import */ var _Installmail_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Installmail.vue */ "./src/Installmail.vue");
 //
 //
 //
@@ -1884,6 +1885,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -1900,7 +1906,8 @@ __webpack_require__.r(__webpack_exports__);
     Domain: _Domain_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     DomainDetail: _DomainDetail_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     UserList: _UserList_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    UserDetail: _UserDetail_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    UserDetail: _UserDetail_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Installmail: _Installmail_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   mixins: [],
   data: function () {
@@ -1908,6 +1915,8 @@ __webpack_require__.r(__webpack_exports__);
       isAdmin: false,
       selectedDomain: null,
       selectedUser: null,
+      mailserverinstallation: true,
+      //TODO false,
       domainList: []
     };
   },
@@ -1929,6 +1938,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     selectDomain(domain) {
       this.selectedDomain = domain;
+      this.mailserverinstallation = false;
       this.reloadUsers();
     },
 
@@ -1942,6 +1952,11 @@ __webpack_require__.r(__webpack_exports__);
           this.$refs.userList.reloadUsers();
         }
       }, 0);
+    },
+
+    installmailserver() {
+      this.selectedDomain = null;
+      this.mailserverinstallation = true;
     }
 
   }
@@ -2051,10 +2066,10 @@ __webpack_require__.r(__webpack_exports__);
       domainCreatingWait: false,
       domainMenuId: null,
       domainsLoading: false,
-      domainList: [],
-      selectedDomain: null
+      domainList: []
     };
   },
+  props: ["selectedDomain"],
   computed: {},
   watch: {},
   beforeMount: function () {
@@ -2168,8 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
 
     activateDomain(domain) {
       if (this.selectedDomain === domain) return;
-      this.selectedDomain = domain;
-      this.$emit('select-domain', this.selectedDomain);
+      this.$emit('select-domain', domain);
     }
 
   }
@@ -2374,6 +2388,567 @@ __webpack_require__.r(__webpack_exports__);
       aliasObj.deleteTimer = null;
     }
 
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./src/Installmail.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function () {
+    return {
+      mysqluserpassword: "someSecretPassword",
+      mysqlusername: "mailuser",
+      nextclouddbname: "nextcloud",
+      domain: "example.com",
+      certpath: "/etc/letsencrypt/live/domain/fullchain.pem",
+      certkeypath: "/etc/letsencrypt/live/domain/privkey.pem",
+      tablePrefix: "oc_"
+    };
   }
 });
 
@@ -11551,6 +12126,25 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./src/Installmail.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.row {\n    float: left;\n    width: 100%;\n    line-height: 40px;\n}\n.inputlabel {\n    float: left;\n    width: 140px;\n}\n.inputcontrol {\n    float: left;\n    width: calc(100% - 150px)\n}\n\n/*pre.code {\n  white-space: pre-wrap;\n}*/\npre.code:before {\n  counter-reset: listing;\n}\npre.code code {\n  counter-increment: listing;\n}\npre.code code::before {\n  content: counter(listing) \". \";\n  display: inline-block;\n  width: 5em;         /* doesn't work */\n  padding-left: auto; /* doesn't work */\n  margin-left: auto;  /* doesn't work */\n  text-align: right;  /* doesn't work */\n  background-color: lightgray;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/UserList.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./src/UserList.vue?vue&type=style&index=0&lang=css& ***!
@@ -13233,6 +13827,7 @@ var render = function() {
       { attrs: { id: "app-navigation" } },
       [
         _c("domain", {
+          attrs: { selectedDomain: _vm.selectedDomain },
           on: {
             "select-domain": function($event) {
               _vm.selectDomain($event)
@@ -13241,7 +13836,26 @@ var render = function() {
               _vm.domainList = $event
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _c("div", { attrs: { id: "app-settings" } }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "app-settings-content" } }, [
+            _c(
+              "button",
+              {
+                staticStyle: { width: "100%" },
+                on: {
+                  click: function($event) {
+                    _vm.installmailserver()
+                  }
+                }
+              },
+              [_vm._v("Install mail server")]
+            )
+          ])
+        ])
       ],
       1
     ),
@@ -13285,11 +13899,25 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.mailserverinstallation ? _c("div", [_c("installmail")], 1) : _vm._e()
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "app-settings-header" } }, [
+      _c("button", {
+        staticClass: "settings-button",
+        attrs: { "data-apps-slide-toggle": "#app-settings-content" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -13679,6 +14307,1731 @@ var render = function() {
           staticStyle: { width: "200px", height: "200px" }
         })
       : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=template&id=90ec452e&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/Installmail.vue?vue&type=template&id=90ec452e& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._v("\n        Don't forget to set your DNS\n        "),
+    _c("br"),
+    _vm._v(
+      "\n        This install script is only for Ubuntu 18.04, nextcloud with MYSQL/MARIADB database installed on localhost. Similiar to project mail in a box.\n        "
+    ),
+    _c("br"),
+    _vm._v("\n        This script need be run as root\n        "),
+    _c("br"),
+    _vm._v(
+      "\n        mysql user name - this script will create this user for mail to connect to nextcloud database\n        "
+    ),
+    _c("br"),
+    _vm._v(
+      "\n        mysql user password - password for this new user\n        \n        "
+    ),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [_vm._v("mysql user name:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.mysqlusername,
+            expression: "mysqlusername"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.mysqlusername },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.mysqlusername = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [
+        _vm._v("mysql user password:")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.mysqluserpassword,
+            expression: "mysqluserpassword"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.mysqluserpassword },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.mysqluserpassword = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [_vm._v("NC database name:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.nextclouddbname,
+            expression: "nextclouddbname"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.nextclouddbname },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.nextclouddbname = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [_vm._v("NC table prefix:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.tablePrefix,
+            expression: "tablePrefix"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.tablePrefix },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.tablePrefix = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [_vm._v("your domain:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.domain,
+            expression: "domain"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.domain },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.domain = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [_vm._v("https cert path:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.certpath,
+            expression: "certpath"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.certpath },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.certpath = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "inputlabel" }, [
+        _vm._v("https cert ket path:")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.certkeypath,
+            expression: "certkeypath"
+          }
+        ],
+        staticClass: "inputcontrol",
+        attrs: { type: "text" },
+        domProps: { value: _vm.certkeypath },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.certkeypath = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("strong", [_vm._v("mail_installer.sh")]),
+    _vm._v(" "),
+    _c("pre", { staticClass: "code" }, [
+      _c("code", [_vm._v("ufw allow 465;")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ufw allow 587;")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ufw allow 110;")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ufw allow 995;")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ufw allow 143;")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ufw allow 993;")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "deb https://repo.dovecot.org/ce-2.3-latest/ubuntu/bionic bionic main" > /etc/apt/sources.list.d/dovecot.list'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("apt update")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql;"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service sendmail stop;")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'mysql --execute="create user ' +
+            _vm._s(_vm.mysqlusername) +
+            "@localhost identified by '" +
+            _vm._s(_vm.mysqluserpassword) +
+            "'; grant SELECT on " +
+            _vm._s(_vm.nextclouddbname) +
+            ".* to " +
+            _vm._s(_vm.mysqlusername) +
+            "@localhost identified by '" +
+            _vm._s(_vm.mysqluserpassword) +
+            "'; FLUSH PRIVILEGES;\";"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cp /etc/postfix/main.cf /etc/postfix/main.cf.orig;")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cp /etc/postfix/master.cf /etc/postfix/master.cf.orig;")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.orig")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cp /etc/dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf.orig"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cp /etc/dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf.orig"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cp /etc/dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext.orig"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cp /etc/dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf.orig"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cp /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/10-ssl.conf.orig"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#TODO remove after quota working")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mkdir -p /var/mail/vhosts/" + _vm._s(_vm.domain))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("groupadd -g 5000 vmail")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("useradd -g vmail -u 5000 vmail -d /var/mail")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("chown -R vmail:vmail /var/mail")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------/etc/postfix/main.cf --------------------------";'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/postfix/main.cf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# See /usr/share/postfix/main.cf.dist for a commented, more complete version"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Debian specific:  Specifying a file name will cause the first"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# line of that file to be used as the name.  The Debian default"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# is /etc/mailname.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#myorigin = /etc/mailname")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("smtpd_banner = \\$myhostname ESMTP \\$mail_name (Ubuntu)")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("biff = no")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# appending .domain is the MUA's job.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("append_dot_mydomain = no")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v('# Uncomment the next line to generate "delayed mail" warnings')
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#delay_warning_time = 4h")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("readme_directory = no")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# TLS parameters")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_tls_cert_file=" + _vm._s(_vm.certpath))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_tls_key_file=" + _vm._s(_vm.certkeypath))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_use_tls=yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_tls_auth_only = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtp_tls_security_level = may")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_tls_security_level = may")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("smtpd_sasl_security_options = noanonymous, noplaintext")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_sasl_tls_security_options = noanonymous")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Authentication")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_sasl_type = dovecot")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_sasl_path = private/auth")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_sasl_auth_enable = yes")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# information on enabling SSL in the smtp client.")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Restrictions")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_helo_restrictions =")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_mynetworks,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_sasl_authenticated,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_invalid_helo_hostname,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_non_fqdn_helo_hostname")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_recipient_restrictions =")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_mynetworks,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_sasl_authenticated,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_non_fqdn_recipient,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_unknown_recipient_domain,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_unlisted_recipient,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_unauth_destination")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_sender_restrictions =")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_mynetworks,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_sasl_authenticated,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_non_fqdn_sender,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        reject_unknown_sender_domain")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_relay_restrictions =")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_mynetworks,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        permit_sasl_authenticated,")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        defer_unauth_destination")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# information on enabling SSL in the smtp client.")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("myhostname = " + _vm._s(_vm.domain))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("alias_maps = hash:/etc/aliases")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("alias_database = hash:/etc/aliases")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mydomain = " + _vm._s(_vm.domain))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("myorigin = \\$mydomain")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mydestination = localhost")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("relayhost =")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mailbox_size_limit = 0")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("recipient_delimiter = +")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("inet_interfaces = all")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("inet_protocols = all")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Handing off local delivery to Dovecot's LMTP, and telling it where to store mail"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("virtual_transport = lmtp:unix:private/dovecot-lmtp")
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Virtual domains, users, and aliases")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Even more Restrictions and MTA params")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("disable_vrfy_command = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("strict_rfc821_envelopes = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#smtpd_etrn_restrictions = reject")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#smtpd_reject_unlisted_sender = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#smtpd_reject_unlisted_recipient = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_delay_reject = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_helo_required = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtp_always_send_ehlo = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#smtpd_hard_error_limit = 1")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_timeout = 30s")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtp_helo_timeout = 15s")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtp_rcpt_timeout = 15s")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("smtpd_recipient_limit = 40")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("minimal_backoff_time = 180s")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("maximal_backoff_time = 3h")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Reply Rejection Codes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("invalid_hostname_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("non_fqdn_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("unknown_address_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("unknown_client_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("unknown_hostname_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("unverified_recipient_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("unverified_sender_reject_code = 550")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/postfix/mysql-virtual-mailbox-domains.cf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cat >/etc/postfix/mysql-virtual-mailbox-domains.cf <<EOL")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("user = " + _vm._s(_vm.mysqlusername))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("password = " + _vm._s(_vm.mysqluserpassword))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("hosts = 127.0.0.1")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("dbname = " + _vm._s(_vm.nextclouddbname))]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "query = SELECT 1 FROM " +
+            _vm._s(_vm.tablePrefix) +
+            "mailadmin_domains WHERE domain='%s'"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "-----------------------/etc/postfix/mysql-virtual-mailbox-maps.cf----------------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cat >/etc/postfix/mysql-virtual-mailbox-maps.cf <<EOL")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("user = " + _vm._s(_vm.mysqlusername))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("password = " + _vm._s(_vm.mysqluserpassword))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("hosts = 127.0.0.1")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("dbname = " + _vm._s(_vm.nextclouddbname))]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "query = SELECT 1 FROM " +
+            _vm._s(_vm.tablePrefix) +
+            "mailadmin_domain_group LEFT JOIN " +
+            _vm._s(_vm.tablePrefix) +
+            "group_user ON " +
+            _vm._s(_vm.tablePrefix) +
+            "group_user.gid = " +
+            _vm._s(_vm.tablePrefix) +
+            "mailadmin_domain_group.gid where CONCAT(" +
+            _vm._s(_vm.tablePrefix) +
+            "group_user.uid, '@', " +
+            _vm._s(_vm.tablePrefix) +
+            "mailadmin_domain_group.domain) = '%s'"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/postfix/mysql-virtual-alias-maps.cf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("cat >/etc/postfix/mysql-virtual-alias-maps.cf <<EOL")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("user = " + _vm._s(_vm.mysqlusername))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("password = " + _vm._s(_vm.mysqluserpassword))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("hosts = 127.0.0.1")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("dbname = " + _vm._s(_vm.nextclouddbname))]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "query = SELECT email from " +
+            _vm._s(_vm.tablePrefix) +
+            "mailadmin_user_alias where alias='%s'"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/postfix/master.cf --------------------------------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/postfix/master.cf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Postfix master process configuration file.  For details on the format"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          '# of the file, see the master(5) manual page (command: "man 5 master" or'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# on-line: http://www.postfix.org/master.5.html).")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          '# Do not forget to execute "postfix reload" after editing this file.'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# =========================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# service type  private unpriv  chroot  wakeup  maxproc command + args"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#               (yes)   (yes)   (no)    (never) (100)")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# =========================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("smtp      inet  n       -       y       -       -       smtpd")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "#smtp      inet  n       -       y       -       1       postscreen"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#smtpd     pass  -       -       y       -       -       smtpd")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "#dnsblog   unix  -       -       y       -       0       dnsblog"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "#tlsproxy  unix  -       -       y       -       0       tlsproxy"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("submission inet n       -       y      -       -       smtpd")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o syslog_name=postfix/submission")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_tls_security_level=encrypt")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_auth_enable=yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_type=dovecot")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_path=private/auth")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_reject_unlisted_recipient=no")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  -o smtpd_client_restrictions=permit_sasl_authenticated,reject"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o milter_macro_daemon_name=ORIGINATING")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("smtps     inet  n       -       -       -       -       smtpd")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o syslog_name=postfix/smtps")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_tls_wrappermode=yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_auth_enable=yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_type=dovecot")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o smtpd_sasl_path=private/auth")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  -o smtpd_client_restrictions=permit_sasl_authenticated,reject"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  -o milter_macro_daemon_name=ORIGINATING")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#628       inet  n       -       y       -       -       qmqpd")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("pickup    unix  n       -       y       60      1       pickup")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "cleanup   unix  n       -       y       -       0       cleanup"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("qmgr      unix  n       -       n       300     1       qmgr")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#qmgr     unix  n       -       n       300     1       oqmgr")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("tlsmgr    unix  -       -       y       1000?   1       tlsmgr")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "rewrite   unix  -       -       y       -       -       trivial-rewrite"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("bounce    unix  -       -       y       -       0       bounce")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("defer     unix  -       -       y       -       0       bounce")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("trace     unix  -       -       y       -       0       bounce")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("verify    unix  -       -       y       -       1       verify")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("flush     unix  n       -       y       1000?   0       flush")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "proxymap  unix  -       -       n       -       -       proxymap"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "proxywrite unix -       -       n       -       1       proxymap"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("smtp      unix  -       -       y       -       -       smtp")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("relay     unix  -       -       y       -       -       smtp")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("        -o syslog_name=postfix/\\$service_name")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#       -o smtp_helo_timeout=5 -o smtp_connect_timeout=5")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("showq     unix  n       -       y       -       -       showq")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("error     unix  -       -       y       -       -       error")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("retry     unix  -       -       y       -       -       error")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "discard   unix  -       -       y       -       -       discard"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("local     unix  -       n       n       -       -       local")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "virtual   unix  -       n       n       -       -       virtual"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("lmtp      unix  -       -       y       -       -       lmtp")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("anvil     unix  -       -       y       -       1       anvil")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("scache    unix  -       -       y       -       1       scache")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Interfaces to non-Postfix software. Be sure to examine the manual"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# pages of the non-Postfix software to find out what options it wants."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Many of the following services use the Postfix pipe(8) delivery"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# agent.  See the pipe(8) man page for information about \\${recipient}"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# and other message envelope options.")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("# maildrop. See the Postfix MAILDROP_README file for details.")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Also specify in main.cf: maildrop_destination_recipient_limit=1"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("maildrop  unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=DRhu user=vmail argv=/usr/bin/maildrop -d \\${recipient}"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          '# Recent Cyrus versions can use the existing "lmtp" master.cf entry.'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Specify in cyrus.conf:")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v('#   lmtp    cmd="lmtpd -a" listen="localhost:lmtp" proto=tcp4')
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("# Specify in main.cf one or more of the following:")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#  mailbox_transport = lmtp:inet:localhost")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#  virtual_transport = lmtp:inet:localhost")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Cyrus 2.1.5 (Amos Gouaux)")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("# Also specify in main.cf: cyrus_destination_recipient_limit=1")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#cyrus     unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "#  user=cyrus argv=/cyrus/bin/deliver -e -r \\${sender} -m \\${extension} \\${user}"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Old example of delivery via Cyrus.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("#old-cyrus unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "#  flags=R user=cyrus argv=/cyrus/bin/deliver -e -m \\${extension} \\${user}"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# ===================================================================="
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("# See the Postfix UUCP_README file for configuration details.")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("uucp      unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=Fqhu user=uucp argv=uux -r -n -z -a\\$sender - \\$nexthop!rmail (\\$recipient)"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# Other external delivery methods.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("ifmail    unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r \\$nexthop (\\$recipient)"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("bsmtp     unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=Fq. user=bsmtp argv=/usr/lib/bsmtp/bsmtp -t\\$nexthop -f\\$sender \\$recipient"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "scalemail-backend unix  -       n       n       -       2       pipe"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=R user=scalemail argv=/usr/lib/scalemail/bin/scalemail-store \\${nexthop} \\${user} \\${extension}"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("mailman   unix  -       n       n       -       -       pipe")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  \\${nexthop} \\${user}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/dovecot.conf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/dovecot.conf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("!include_try /usr/share/dovecot/protocols.d/*.protocol")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("protocols = imap pop3 lmtp")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("dict {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("  #quota = mysql:/etc/dovecot/dovecot-dict-sql.conf.ext")
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("  #expire = sqlite:/etc/dovecot/dovecot-dict-sql.conf.ext")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("!include conf.d/*.conf")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("postmaster_address=postmaster@" + _vm._s(_vm.domain))
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/conf.d/10-mail.conf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/conf.d/10-mail.conf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mail_location = maildir:/var/mail/vhosts/%d/%n/")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("namespace inbox {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  inbox = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("mail_privileged_group = vmail")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("protocol !indexer-worker {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/conf.d/10-auth.conf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/conf.d/10-auth.conf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("disable_plaintext_auth = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("auth_mechanisms = plain login")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("!include auth-system.conf.ext")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("!include auth-sql.conf.ext")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/conf.d/auth-sql.conf.ext -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("passdb {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  driver = sql")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  args = /etc/dovecot/dovecot-sql.conf.ext")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("userdb {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  driver = sql")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  args = /etc/dovecot/dovecot-sql.conf.ext")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/dovecot-sql.conf.ext -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/dovecot-sql.conf.ext <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("driver = mysql")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "connect = host=127.0.0.1 dbname=" +
+            _vm._s(_vm.nextclouddbname) +
+            " user=" +
+            _vm._s(_vm.mysqlusername) +
+            " password=" +
+            _vm._s(_vm.mysqluserpassword)
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("default_pass_scheme = ARGON2I")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "password_query = select oc_users.uid as username, oc_mailadmin_domain_group.domain as domain, CONCAT(\"{ARGON2I}\", SUBSTRING(oc_users.password, 3)) as password from oc_mailadmin_domain_group LEFT JOIN oc_group_user ON oc_group_user.gid = oc_mailadmin_domain_group.gid LEFT JOIN oc_users ON oc_users.uid = oc_group_user.uid where oc_group_user.uid = '%n' and oc_mailadmin_domain_group.domain = '%d'"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "user_query = select CONCAT(\"/var/mail/vhosts/\", oc_mailadmin_domain_group.domain, '/', oc_group_user.uid) as home, 1000 as uid, 1000 as gid from oc_mailadmin_domain_group LEFT JOIN oc_group_user ON oc_group_user.gid = oc_mailadmin_domain_group.gid where oc_group_user.uid = '%n' and oc_mailadmin_domain_group.domain = '%d'"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/conf.d/10-ssl.conf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/conf.d/10-ssl.conf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ssl = required")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ssl_cert =  <" + _vm._s(_vm.certpath))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("ssl_key =  <" + _vm._s(_vm.certkeypath))]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          'echo "------------------------/etc/dovecot/conf.d/10-master.conf -----------------------"'
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("cat >/etc/dovecot/conf.d/10-master.conf <<EOL")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#default_process_limit = 100")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#default_client_limit = 1000")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Default VSZ (virtual memory size) limit for service processes. This is mainly"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# intended to catch and kill processes that leak memory before they eat up"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("# everything.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#default_vsz_limit = 256M")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Login user is internally used by login processes. This is the most untrusted"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# user in Dovecot system. It shouldn't have access to anything at all."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#default_login_user = dovenull")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# Internal user is used by unprivileged processes. It should be separate from"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "# login user, so that login processes can't disturb other processes."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("#default_internal_user = dovecot")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service imap-login {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  inet_listener imap {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    port = 143")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  inet_listener imaps {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    port = 993")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    ssl = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # Number of connections to handle before starting a new process. Typically"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # the only useful values are 0 (unlimited) or 1. 1 is more secure, but 0"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # is faster. <doc/wiki/LoginProcess.txt>")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #service_count = 1")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # Number of processes to always keep waiting for more connections."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #process_min_avail = 0")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # If you set service_count=0, you probably need to grow this."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #vsz_limit = 64M")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service pop3-login {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  inet_listener pop3 {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    port = 0")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  inet_listener pop3s {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    port = 995")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    ssl = yes")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service lmtp {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(" unix_listener /var/spool/postfix/private/dovecot-lmtp {")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("   mode = 0600")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("   user = postfix")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("   group = postfix")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # Create inet listener only if you can't use the above UNIX socket"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #inet_listener lmtp {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("    # Avoid making LMTP visible for the entire internet")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #address =")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #port = ")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #}")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service imap {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # Most of the memory goes to mmap()ing files. You may need to increase this"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # limit if you have huge mailboxes.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #vsz_limit = 256M")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # Max. number of IMAP processes (connections)")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #process_limit = 1024")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service pop3 {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # Max. number of POP3 processes (connections)")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #process_limit = 1024")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service auth {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # auth_socket_path points to this userdb socket by default. It's typically"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # used by dovecot-lda, doveadm, possibly imap process, etc. Its default"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # permissions make it readable only by root, but you may need to relax these"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # permissions. Users that have access to this socket are able to get a list"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # of all usernames and get results of everyone's userdb lookups."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  unix_listener /var/spool/postfix/private/auth {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    mode = 0666")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    user = postfix")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    group = postfix")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  unix_listener auth-userdb {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    mode = 0600")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    user = vmail")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #group = vmail")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # Postfix smtp-auth")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v("  #unix_listener /var/spool/postfix/private/auth {")
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #  mode = 0666")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  #}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # Auth process is run as this user.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  user = dovecot")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service auth-worker {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # Auth worker process is run as root by default, so that it can access"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # /etc/shadow. If this isn't necessary, the user should be changed to"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  # \\$default_internal_user.")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  user = vmail")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("service dict {")]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # If dict proxy is used, mail processes should have access to its socket."
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [
+        _vm._v(
+          "  # For example: mode=0660, group=vmail and global mail_access_groups=vmail"
+        )
+      ]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  unix_listener dict {")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #mode = 0600")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #user = ")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("    #group = ")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("  }")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("}")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("EOL")]),
+      _vm._v("\n"),
+      _c("code"),
+      _vm._v("\n"),
+      _c("code", [_vm._v("systemctl restart postfix")]),
+      _vm._v("\n"),
+      _c("code", [_vm._v("systemctl restart dovecot")]),
+      _vm._v("\n        ")
+    ])
   ])
 }
 var staticRenderFns = []
@@ -16906,6 +19259,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! ../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("b5a5979e", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./src/Installmail.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !../node_modules/css-loader!../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../node_modules/vue-loader/lib??vue-loader-options!./Installmail.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=style&index=0&lang=css&");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! ../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("edbf24d4", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
@@ -28684,6 +31058,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DomainDetail_vue_vue_type_template_id_599fefa4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DomainDetail_vue_vue_type_template_id_599fefa4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/Installmail.vue":
+/*!*****************************!*\
+  !*** ./src/Installmail.vue ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Installmail.vue?vue&type=template&id=90ec452e& */ "./src/Installmail.vue?vue&type=template&id=90ec452e&");
+/* harmony import */ var _Installmail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Installmail.vue?vue&type=script&lang=js& */ "./src/Installmail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Installmail.vue?vue&type=style&index=0&lang=css& */ "./src/Installmail.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Installmail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "src/Installmail.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./src/Installmail.vue?vue&type=script&lang=js&":
+/*!******************************************************!*\
+  !*** ./src/Installmail.vue?vue&type=script&lang=js& ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../node_modules/babel-loader/lib!../node_modules/vue-loader/lib??vue-loader-options!./Installmail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/Installmail.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************!*\
+  !*** ./src/Installmail.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../node_modules/vue-style-loader!../node_modules/css-loader!../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../node_modules/vue-loader/lib??vue-loader-options!./Installmail.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./src/Installmail.vue?vue&type=template&id=90ec452e&":
+/*!************************************************************!*\
+  !*** ./src/Installmail.vue?vue&type=template&id=90ec452e& ***!
+  \************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../node_modules/vue-loader/lib??vue-loader-options!./Installmail.vue?vue&type=template&id=90ec452e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/Installmail.vue?vue&type=template&id=90ec452e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Installmail_vue_vue_type_template_id_90ec452e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

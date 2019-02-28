@@ -89,9 +89,9 @@ export default {
       domainMenuId: null,
       domainsLoading: false,
       domainList: [],
-      selectedDomain: null
     };
   },
+  props: ["selectedDomain"],
   computed: {},
   watch: {},
   beforeMount: function() {
@@ -214,8 +214,7 @@ export default {
     },
     activateDomain(domain) {
       if(this.selectedDomain === domain) return;
-      this.selectedDomain = domain;
-      this.$emit('select-domain',this.selectedDomain);
+      this.$emit('select-domain',domain);
     }
   }
 };

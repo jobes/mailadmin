@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <div id="app-navigation">
-      <domain v-on:select-domain="selectDomain($event)" v-on:domain-list="domainList=$event"/>
-      <!--<div id="app-settings">
+      <domain v-on:select-domain="selectDomain($event)" v-bind:selectedDomain="selectedDomain" v-on:domain-list="domainList=$event"/>
+      <div id="app-settings">
 					<div id="app-settings-header">
 						<button class="settings-button"
 								data-apps-slide-toggle="#app-settings-content"
 						></button>
 					</div>
 					<div id="app-settings-content">
-						this
+						<button style="width: 100%" v-on:click="installmailserver()">Install mail server</button>
 					</div>
-      </div>-->
+      </div>
     </div>
 
     <div id="app-content">
@@ -32,6 +32,10 @@
           v-bind:domain-list="domainList"
           v-if="selectedUser"
         />
+      </div>
+      <div v-if="mailserverinstallation">
+        <installmail>
+        </installmail>
       </div>
     </div>
   </div>
@@ -77,6 +81,7 @@ import Domain from "./Domain.vue";
 import DomainDetail from "./DomainDetail.vue";
 import UserList from "./UserList.vue";
 import UserDetail from "./UserDetail.vue";
+import Installmail from "./Installmail.vue"
 
 export default {
   name: "App",
@@ -88,7 +93,8 @@ export default {
     Domain,
     DomainDetail,
     UserList,
-    UserDetail
+    UserDetail,
+    Installmail
   },
   mixins: [],
   data: function() {
@@ -96,6 +102,7 @@ export default {
       isAdmin: false,
       selectedDomain: null,
       selectedUser: null,
+      mailserverinstallation: false,
       domainList: []
     };
   },
@@ -115,6 +122,7 @@ export default {
   methods: {
     selectDomain(domain) {
       this.selectedDomain = domain;
+      this.mailserverinstallation = false;
       this.reloadUsers();
     },
     selectUser(user) {
@@ -126,6 +134,10 @@ export default {
           this.$refs.userList.reloadUsers();
         }
       }, 0);
+    },
+    installmailserver() {
+      this.selectedDomain = null;
+      this.mailserverinstallation = true;
     }
   }
 };
